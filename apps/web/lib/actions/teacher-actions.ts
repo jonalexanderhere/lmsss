@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function createCourse(formData: FormData) {
@@ -83,4 +83,17 @@ export async function promoteClass(className: string, currentGrade: string) {
   if (error) throw new Error(error.message);
   revalidatePath("/teacher/management/promotion");
   return { success: true };
+}
+
+export async function adminResetPassword(studentId: string) {
+  const adminSupabase = await createAdminClient();
+  const newPassword = Math.random().toString(36).slice(-10) + "NCX!"; // Generate random secure password
+  
+  const { error } = await adminSupabase.auth.admin.updateUserById(studentId, {
+    password: newPassword
+  });
+
+  if (error) throw new Error(error.message);
+  
+  return { success: true, newPassword };
 }

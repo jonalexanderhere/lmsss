@@ -164,6 +164,13 @@ export function AuthForm({ mode }: AuthFormProps) {
             type="password"
             value={password}
           />
+          {mode === "login" && (
+            <div className="flex justify-end px-1">
+              <Link href="/forgot-password" size="sm" className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-teal-400 transition-colors">
+                Lupa Password?
+              </Link>
+            </div>
+          )}
           {error ? <p className="text-sm text-rose-300">{error}</p> : null}
           {notice ? <p className="text-sm text-teal-200">{notice}</p> : null}
           <Button className="w-full" type="submit">

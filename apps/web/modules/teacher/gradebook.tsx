@@ -3,7 +3,10 @@
 import { LevelBadge } from "@/components/features/level-badge";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { User, Award, Brain, BarChart3 } from "lucide-react";
+import { User, Award, Brain, BarChart3, ShieldAlert } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { adminResetPassword } from "@/lib/actions/teacher-actions";
+import { cn } from "@/lib/utils";
 
 type StudentRecord = {
   id: string;
@@ -85,6 +88,25 @@ export function Gradebook({ students }: { students: StudentRecord[] }) {
                    )}>
                      {student.avgScore}%
                    </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0 text-slate-500 hover:text-rose-400"
+                    onClick={async () => {
+                      if (confirm(`Reset password untuk ${student.full_name}?`)) {
+                        try {
+                          const res = await adminResetPassword(student.id);
+                          alert(`SUCCESS: Access key reset to: ${res.newPassword}. Berikan kode ini ke siswa.`);
+                        } catch (err: any) {
+                          alert(`ERROR: ${err.message}`);
+                        }
+                      }
+                    }}
+                  >
+                    <ShieldAlert className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
