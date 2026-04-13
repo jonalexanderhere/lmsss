@@ -60,6 +60,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="/courses" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Courses</Link>
             <Link href="/quizzes" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Quiz Arena</Link>
+            <Link href="/leaderboard" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Leaderboard</Link>
             <Link href="/labs" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Practice Lab</Link>
           </div>
 
