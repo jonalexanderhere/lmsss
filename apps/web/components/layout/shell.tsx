@@ -1,6 +1,11 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
-import { Search, Bell, UserCircle } from "lucide-react";
+import { Search, Bell, UserCircle, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 export function Shell({
   role,
@@ -9,17 +14,37 @@ export function Shell({
   role: "admin" | "teacher" | "student";
   children: ReactNode;
 }) {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground bg-grid-white">
       <div className="mx-auto flex max-w-7xl gap-6 p-4 lg:p-6">
-        <Sidebar role={role} />
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <Sidebar role={role} />
+        </div>
         
         <div className="flex-1 min-w-0 space-y-6">
           <header className="sticky top-6 z-40 flex h-16 items-center justify-between rounded-[24px] border border-white/10 bg-white/[0.02] px-6 backdrop-blur-xl">
             <div className="flex items-center gap-4 text-sm">
-              <span className="text-slate-500">NetClassix</span>
-              <span className="text-slate-700">/</span>
-              <span className="font-bold text-white capitalize">{role} Dashboard</span>
+              <Sheet open={isMobileNavOpen} onOpenChange={setIsMobileNavOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="sm" className="lg:hidden h-10 w-10 p-0 rounded-xl hover:bg-white/10">
+                    <Menu className="h-5 w-5 text-slate-400" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="p-0 bg-transparent border-none w-80">
+                  <div className="p-4 h-full">
+                     <Sidebar role={role} onNavigate={() => setIsMobileNavOpen(false)} />
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline text-slate-500">NetClassix</span>
+                <span className="hidden sm:inline text-slate-700">/</span>
+                <span className="font-bold text-white capitalize">{role} Dashboard</span>
+              </div>
             </div>
             
             <div className="flex items-center gap-4">
@@ -47,3 +72,4 @@ export function Shell({
     </div>
   );
 }
+

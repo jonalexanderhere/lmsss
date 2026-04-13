@@ -28,7 +28,7 @@ const adminItems = [
   { href: "/biometric", label: "Face ID Hub", icon: BrainCircuit },
 ];
 
-export function Sidebar({ role }: { role: string }) {
+export function Sidebar({ role, onNavigate }: { role: string, onNavigate?: () => void }) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -36,6 +36,7 @@ export function Sidebar({ role }: { role: string }) {
     await supabase.auth.signOut();
     router.refresh();
     router.push("/login");
+    if (onNavigate) onNavigate();
   };
 
   const navItems = role === 'admin' 
@@ -45,8 +46,8 @@ export function Sidebar({ role }: { role: string }) {
     : studentItems;
 
   return (
-    <aside className="hidden w-72 shrink-0 lg:block">
-      <div className="sticky top-6 flex flex-col h-[calc(100vh-48px)] rounded-[32px] border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl">
+    <aside className={cn("w-full lg:w-72 shrink-0 h-full lg:h-auto")}>
+      <div className="flex flex-col h-full lg:h-[calc(100vh-48px)] rounded-[32px] border border-white/10 bg-white/[0.04] lg:bg-white/[0.02] p-6 backdrop-blur-xl">
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-500/20 text-teal-400">
@@ -68,12 +69,14 @@ export function Sidebar({ role }: { role: string }) {
               )}
               href={href}
               key={href}
+              onClick={() => onNavigate?.()}
             >
               <Icon className="h-5 w-5 transition-transform group-hover:scale-110" />
               <span>{label}</span>
             </Link>
           ))}
         </nav>
+
 
         <div className="mt-auto space-y-4">
           <div className="rounded-[24px] bg-gradient-to-br from-teal-500/10 to-blue-500/10 p-4 border border-white/5">
