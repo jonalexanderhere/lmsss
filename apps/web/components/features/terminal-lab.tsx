@@ -35,6 +35,26 @@ const missions: Mission[] = [
     command: "mtr 8.8.8.8",
     response: "My traceroute  [v0.95]\nHostname                      Loss%   Snt   Last   Avg  Best  Wrst StDev\n1. 192.168.1.1                0.0%    10    0.3   0.3   0.2   0.5   0.1\n2. 10.10.10.1                 0.0%    10    1.5   1.8   1.2   2.5   0.4\n3. 8.8.8.8                    0.0%    10   14.2  14.3  14.1  14.6   0.2",
     goal: "Analisis latensi ke DNS Google"
+  },
+  {
+    command: "nslookup google.com",
+    response: "Server:		192.168.1.1\nAddress:	192.168.1.1#53\n\nNon-authoritative answer:\nName:	google.com\nAddress: 142.251.46.238",
+    goal: "Query DNS records untuk domain"
+  },
+  {
+    command: "whois smkn1liwa.sch.id",
+    response: "Domain Name: SMKN1LIWA.SCH.ID\nRegistrar: PANDI\nStatus: clientTransferProhibited\nExpires On: 2027-05-20\nRegistered On: 2020-05-20",
+    goal: "Identifikasi kepemilikan domain sekolah"
+  },
+  {
+    command: "curl -i netclassix.app",
+    response: "HTTP/2 200 OK\ncontent-type: text/html\nserver: Vercel\nx-powered-by: Next.js\n\nWelcome to NetClassix LMS Page Header...",
+    goal: "Analisis HTTP Response Headers"
+  },
+  {
+    command: "netstat -rn",
+    response: "Routing Table:\nDestination     Gateway         Flags   Netif Expire\ndefault         192.168.1.1     UGSc    en0\n127.0.0.1       127.0.0.1       UH      lo0\n192.168.1       link#4          UCS     en0",
+    goal: "Periksa Routing Table lokal"
   }
 ];
 
