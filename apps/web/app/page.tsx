@@ -5,9 +5,12 @@ import { CourseList } from "@/modules/courses/course-list";
 import { Sparkles } from "lucide-react";
 import { FadeIn } from "@/components/animations/fade-in";
 
+import { Navbar } from "@/components/layout/navbar";
+
 export default function HomePage() {
   return (
-    <div className="mx-auto min-h-screen max-w-7xl space-y-8 px-4 py-4 lg:px-6">
+    <div className="mx-auto min-h-screen max-w-7xl space-y-8 px-4 pb-4 pt-32 lg:px-6">
+      <Navbar />
       <Hero />
       <section className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-8">
