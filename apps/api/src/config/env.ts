@@ -9,7 +9,8 @@ export const envSchema = z.object({
   JWT_AUDIENCE: z.string().default("authenticated"),
   JWT_ISSUER: z.string().default("netclassix"),
   OPENROUTER_API_KEY: z.string().optional(),
-  OPENROUTER_MODEL: z.string().default("mistralai/mistral-7b-instruct:free")
+  OPENROUTER_MODEL: z.string().default("mistralai/mistral-7b-instruct:free"),
+  FRONTEND_URL: z.string().url().default("http://localhost:3000")
 });
 
 export type AppEnv = z.infer<typeof envSchema>;
