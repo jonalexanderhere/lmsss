@@ -36,7 +36,7 @@ export function QuizSession() {
               {index + 1}. {item.question}
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
-              {item.options.map((option) => (
+              {item.options.map((option: string) => (
                 <button
                   className={`rounded-2xl border px-4 py-3 text-left text-sm transition ${
                     answers[item.id] === option
