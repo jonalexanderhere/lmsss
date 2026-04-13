@@ -16,9 +16,11 @@ export async function updateProfile(data: {
   const { error } = await supabase.from("users").update({
     class_name: data.class_name,
     grade: data.grade,
+    interest_field: data.interest_field,
     name: data.name,
     updated_at: new Date().toISOString()
   }).eq("id", userData.user.id);
+
 
   if (error) throw new Error(error.message);
 

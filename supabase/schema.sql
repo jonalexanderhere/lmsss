@@ -35,7 +35,9 @@ create table if not exists public.users (
   rank text not null default 'Trainee',
   grade text check (grade in ('X', 'XI', 'XII', 'Graduated')),
   class_name text,
+  interest_field text,
   status text not null default 'active' check (status in ('active', 'inactive', 'graduated')),
+
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
