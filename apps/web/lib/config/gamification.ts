@@ -1,4 +1,12 @@
-export const RANKS = [
+export interface Rank {
+  name: string;
+  minXp: number;
+  icon: string;
+  color: string;
+}
+
+export const RANKS: Rank[] = [
+
   {
     name: "Trainee",
     minXp: 0,
@@ -35,10 +43,11 @@ export const AI_MASCOT = "/assets/mascot/ai-tutor.png";
 export const HERO_BANNER = "/assets/mascot/hero-banner.png";
 
 
-export function getRank(xp: number) {
-  return [...RANKS].reverse().find(r => xp >= r.minXp) || RANKS[0];
+export function getRank(xp: number): Rank {
+  return ([...RANKS].reverse().find(r => xp >= r.minXp) || RANKS[0]) as Rank;
 }
 
-export function getNextRank(xp: number) {
+export function getNextRank(xp: number): Rank | undefined {
   return RANKS.find(r => r.minXp > xp);
 }
+

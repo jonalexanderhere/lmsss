@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 
 export function LevelBadge({ xp, size = "md", className }: { xp: number, size?: "sm" | "md" | "lg" | "xl", className?: string }) {
   const rank = getRank(xp) || RANKS[0];
+  if (!rank) return null;
+
   
   const sizes = {
     sm: "h-12 w-12",
