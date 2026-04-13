@@ -1,3 +1,7 @@
+"use server";
+
+import { createAdminClient } from "@/lib/supabase/admin";
+
 export async function getOverallGradebook() {
   const supabase = createAdminClient();
   
@@ -25,6 +29,7 @@ export async function getOverallGradebook() {
 
     return {
       ...student,
+      full_name: student.name,
       avgScore,
       quizzesTaken: studentResults.length
     };

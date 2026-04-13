@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
+import Image from "next/image";
 import { Search, Bell, UserCircle, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,16 @@ export function Shell({
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground bg-grid-white">
-      <div className="mx-auto flex max-w-7xl gap-6 p-4 lg:p-6">
+    <div className="min-h-screen bg-background text-foreground bg-grid-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none grayscale">
+        <Image 
+          src="/images/security_branding.png" 
+          alt="Security Branding Background" 
+          fill 
+          className="object-cover"
+        />
+      </div>
+      <div className="mx-auto flex max-w-7xl gap-6 p-4 lg:p-6 relative z-10">
         {/* Desktop Sidebar */}
         <div className="hidden lg:block">
           <Sidebar role={role} />

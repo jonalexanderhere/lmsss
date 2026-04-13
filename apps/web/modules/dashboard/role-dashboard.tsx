@@ -1,7 +1,8 @@
 "use client";
 
 import { Activity, Award, BrainCircuit, Clock3, Zap, TerminalSquare } from "lucide-react";
-import { ProgressChart } from "@/components/charts/progress-chart";
+import Image from "next/image";
+import { ProgressCircle } from "@/components/charts/progress-circle";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -32,20 +33,30 @@ export function RoleDashboard({
     <div className="space-y-10">
       <section className="grid gap-6 xl:grid-cols-[1.6fr_0.8fr]">
         <FadeIn direction="up">
-          <div className="relative overflow-hidden glass-card p-8 lg:p-10">
+          <div className="relative overflow-hidden glass-card p-8 lg:p-10 border-2 border-teal-500/10">
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+              <Image 
+                src="/images/mission_board_header.png" 
+                alt="Mission Header background" 
+                fill 
+                className="object-cover"
+              />
+            </div>
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/10 blur-[80px]" />
             <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-blue-500/10 blur-[80px]" />
             
-            <Badge className="bg-teal-500/10 text-teal-400 border-teal-500/20 mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
-              Control Center
-            </Badge>
-            
-            <h1 className="text-5xl font-black tracking-tighter text-white lg:text-6xl">
-              {title}
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-slate-400 font-medium leading-relaxed">
-              {subtitle}
-            </p>
+            <div className="relative z-10">
+              <Badge className="bg-teal-500/10 text-teal-400 border-teal-500/20 mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
+                Control Center
+              </Badge>
+              
+              <h1 className="text-5xl font-black tracking-tighter text-white lg:text-6xl uppercase italic">
+                {title}
+              </h1>
+              <p className="mt-4 max-w-xl text-lg text-slate-400 font-medium leading-relaxed">
+                {subtitle}
+              </p>
+            </div>
 
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {metrics.map((metric, index) => {
@@ -83,7 +94,7 @@ export function RoleDashboard({
                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Missions Cleared</p>
                 </div>
                 <div className="w-24 h-24">
-                  <ProgressChart progress={progress} color="#2dd4bf" />
+                  <ProgressCircle progress={progress} color="#2dd4bf" />
                 </div>
               </div>
 

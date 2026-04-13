@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { Session, User } from "@supabase/supabase-js";
 import { LoaderCircle } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/browser";
 import { getRolePath } from "@/lib/constants";
 import { useAuthStore } from "@/hooks/use-auth-store";
@@ -166,7 +167,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           />
           {mode === "login" && (
             <div className="flex justify-end px-1">
-              <Link href="/forgot-password" size="sm" className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-teal-400 transition-colors">
+              <Link href="/forgot-password" className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-teal-400 transition-colors">
                 Lupa Password?
               </Link>
             </div>
