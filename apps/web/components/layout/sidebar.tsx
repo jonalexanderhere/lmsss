@@ -12,17 +12,20 @@ const studentItems = [
   { href: "/courses", label: "Courses", icon: BookOpen },
   { href: "/quizzes", label: "Quiz Arena", icon: Activity },
   { href: "/labs", label: "Practice Lab", icon: TerminalSquare },
+  { href: "/biometric", label: "Face ID Hub", icon: BrainCircuit },
 ];
 
 const teacherItems = [
   { href: "/teacher", label: "Control Room", icon: Shield },
   { href: "/teacher/management/courses", label: "Manage Courses", icon: Video },
   { href: "/teacher/management/promotion", label: "Promotion Tool", icon: TrendingUp },
+  { href: "/biometric", label: "Face ID Hub", icon: BrainCircuit },
 ];
 
 const adminItems = [
   { href: "/admin", label: "Admin Deck", icon: Shield },
   { href: "/admin/users", label: "User Management", icon: Users },
+  { href: "/biometric", label: "Face ID Hub", icon: BrainCircuit },
 ];
 
 export function Sidebar({ role }: { role: string }) {

@@ -279,3 +279,45 @@ and not exists (
   select 1 from public.quiz_questions qq
   where qq.quiz_id = q.id and qq.prompt = 'Protocol mana yang termasuk dynamic routing?'
 );
+
+-- Face Data for Biometric Attendance
+create table if not exists public.face_data (
+  user_id uuid primary key references public.users(id) on delete cascade,
+  embedding float8[] not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- Attendance Logs
+create table if not exists public.attendance (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users(id) on delete cascade,
+  class_name text not null,
+  status text not null,
+  confidence_score float8 not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.face_data enable row level security;
+alter table public.attendance enable row level security;
+
+-- Face Data Policies
+drop policy if exists "face_data_all_self" on public.face_data;
+create policy "face_data_all_self" on public.face_data
+for all using (auth.uid() = user_id);
+
+-- Attendance Policies
+drop policy if exists "attendance_select_self" on public.attendance;
+create policy "attendance_select_self" on public.attendance
+for select using (auth.uid() = user_id);
+
+drop policy if exists "attendance_insert_self" on public.attendance;
+create policy "attendance_insert_self" on public.attendance
+for insert with check (auth.uid() = user_id);
+
+drop policy if exists "attendance_select_staff" on public.attendance;
+create policy "attendance_select_staff" on public.attendance
+for select using (exists (
+  select 1 from public.users u where u.id = auth.uid() and u.role in ('teacher', 'admin')
+));
+

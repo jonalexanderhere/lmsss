@@ -40,7 +40,17 @@ const config: Config = {
       backgroundImage: {
         "grid-fade":
           "radial-gradient(circle at top, rgba(45, 212, 191, 0.2), transparent 38%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)"
+      },
+      keyframes: {
+        scan: {
+          "0%, 100%": { top: "25%", opacity: "0" },
+          "50%": { top: "75%", opacity: "1" }
+        }
+      },
+      animation: {
+        "scan-line": "scan 2s ease-in-out infinite"
       }
+
     }
   },
   plugins: []

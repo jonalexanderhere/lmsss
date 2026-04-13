@@ -81,3 +81,19 @@ export async function getOverallAttendance() {
   if (error) throw new Error(error.message);
   return data;
 }
+
+export async function deleteFaceData() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData?.user) throw new Error("Unauthorized");
+
+  const { error } = await supabase
+    .from("face_data")
+    .delete()
+    .eq("user_id", userData.user.id);
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
