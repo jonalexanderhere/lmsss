@@ -32,7 +32,10 @@ async function createAdmin() {
       email: ADMIN_EMAIL,
       password: ADMIN_PASSWORD,
       email_confirm: true,
-      user_metadata: { name: 'Super Admin' }
+      user_metadata: { 
+        name: 'Super Admin',
+        role: 'admin'
+      }
     });
 
     if (authError) {
@@ -54,6 +57,11 @@ async function createAdmin() {
     }
 
     if (!finalId) throw new Error('Could not determine Admin User ID');
+    
+    // 2.5 Update Auth metadata if it already existed to ensure role is present
+    await supabase.auth.admin.updateUserById(finalId, {
+      user_metadata: { role: 'admin' }
+    });
 
     // 3. Upsert into public.users with 'admin' role
     console.log(`🛡️ Assigning 'admin' role to user ${finalId}...`);

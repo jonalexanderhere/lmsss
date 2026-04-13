@@ -10,14 +10,22 @@
       "use": "@vercel/next"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "apps/api/src/main.ts"
+      "src": "/api/(.*)",
+      "dest": "apps/api/src/main.ts"
     },
     {
-      "source": "/(.*)",
-      "destination": "apps/web/$1"
+      "src": "/_next/(.*)",
+      "dest": "apps/web/_next/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "apps/web/public/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "apps/web/$1"
     }
   ]
 }
