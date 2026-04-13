@@ -10,7 +10,8 @@ export default async function BiometricPage() {
   const faceData = await getFaceData();
 
   return (
-    <Shell role={auth.user.role}>
+    <Shell role={auth.role}>
+
       <div className="max-w-4xl mx-auto space-y-10">
         <div className="space-y-2">
           <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase flex items-center gap-3">
