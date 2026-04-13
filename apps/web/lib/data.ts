@@ -1,6 +1,7 @@
 export const previewCourses = [
   {
     id: "1",
+    slug: "mikrotik-advanced-routing",
     title: "MikroTik Advanced Routing (UKK Prep)",
     category: "Networking",
     lessons: 12,
@@ -9,6 +10,7 @@ export const previewCourses = [
   },
   {
     id: "2",
+    slug: "linux-server-admin",
     title: "Linux Server Administration & Hardening",
     category: "System Admin",
     lessons: 8,
@@ -17,6 +19,7 @@ export const previewCourses = [
   },
   {
     id: "3",
+    slug: "network-security-fundamentals",
     title: "Network Security Fundamentals v2",
     category: "Cybersecurity",
     lessons: 15,
@@ -25,6 +28,7 @@ export const previewCourses = [
   },
   {
     id: "4",
+    slug: "cisco-ccna-switching-wireless",
     title: "Cisco CCNA: Switching & Wireless",
     category: "Networking",
     lessons: 20,
@@ -33,6 +37,7 @@ export const previewCourses = [
   },
   {
     id: "5",
+    slug: "fiber-optic-installation",
     title: "Fiber Optic Installation Standards",
     category: "Telecom",
     lessons: 6,
