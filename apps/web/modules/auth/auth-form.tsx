@@ -34,7 +34,7 @@ export function AuthForm({ mode }: AuthFormProps) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback` // Or use standard redirect
+        redirectTo: `${window.location.origin}/auth/callback`
       }
     });
 

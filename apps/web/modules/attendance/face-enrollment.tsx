@@ -23,6 +23,7 @@ export function FaceEnrollment({ onComplete }: { onComplete: () => void }) {
   
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
+  const isMock = process.env.NEXT_PUBLIC_MOCK_BIOMETRICS === "true";
 
   // Enumerate Cameras
   useEffect(() => {
@@ -67,10 +68,13 @@ export function FaceEnrollment({ onComplete }: { onComplete: () => void }) {
   }, []);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && !isMock) {
       startVideo(selectedDeviceId);
     }
-  }, [isLoaded, selectedDeviceId, startVideo]);
+    if (isMock) {
+        setStatus("MOCK CAMERA ACTIVE");
+    }
+  }, [isLoaded, selectedDeviceId, startVideo, isMock]);
 
   // Combined Status
   const displayError = modelError || error;
@@ -120,6 +124,15 @@ export function FaceEnrollment({ onComplete }: { onComplete: () => void }) {
 
     return () => cancelAnimationFrame(animationFrame);
   }, [isLoaded, count, isCapturing]);
+
+  const simulateScan = () => {
+    if (count >= 5) return;
+    const mockDescriptor = Array(128).fill(0).map(() => Math.random());
+    setEmbeddings((prev) => [...prev, mockDescriptor]);
+    setCount((prev) => prev + 1);
+    setProgress((prev) => prev + 20);
+    setStatus(`Simulated Scan ${count + 1}/5`);
+  };
 
   const finalize = async () => {
     if (embeddings.length === 0) return;
@@ -230,6 +243,16 @@ export function FaceEnrollment({ onComplete }: { onComplete: () => void }) {
             {isCapturing ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
             {isCapturing ? "MEMPROSES..." : "AKTIFKAN PROFIL BIOMETRIK"}
           </Button>
+        )}
+
+        {isMock && count < 5 && (
+            <Button
+                variant="outline"
+                className="w-full h-14 border-teal-500/20 text-teal-400 hover:bg-teal-500/10 font-black uppercase tracking-widest rounded-2xl"
+                onClick={simulateScan}
+            >
+                Simulate Face Scan Point ({count}/5)
+            </Button>
         )}
 
         <div className="flex items-center justify-center gap-2 text-[8px] font-black text-slate-600 uppercase tracking-widest">

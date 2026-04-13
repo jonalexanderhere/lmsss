@@ -18,6 +18,7 @@ export function FaceAttendance({ masterEmbedding, onComplete }: { masterEmbeddin
   const [isSuccess, setIsSuccess] = useState(false);
   const [status, setStatus] = useState("Initializing Scanner...");
   const [matchCounter, setMatchCounter] = useState(0);
+  const isMock = process.env.NEXT_PUBLIC_MOCK_BIOMETRICS === "true";
 
   const startVideo = useCallback(async () => {
     try {
@@ -30,8 +31,9 @@ export function FaceAttendance({ masterEmbedding, onComplete }: { masterEmbeddin
   }, []);
 
   useEffect(() => {
-    if (isLoaded) startVideo();
-  }, [isLoaded, startVideo]);
+    if (isLoaded && !isMock) startVideo();
+    if (isMock) setStatus("MOCK SCANNER ACTIVE");
+  }, [isLoaded, startVideo, isMock]);
 
   useEffect(() => {
     let animationFrame: number;
@@ -188,6 +190,22 @@ export function FaceAttendance({ masterEmbedding, onComplete }: { masterEmbeddin
           >
             AKTIFKAN KAMERA
           </Button>
+        )}
+
+        {isMock && !isSuccess && (
+            <Button
+                variant="outline"
+                className="w-full h-14 border-teal-500/20 text-teal-400 hover:bg-teal-500/10 font-black uppercase tracking-widest rounded-2xl gap-2"
+                onClick={() => {
+                    setConfidence(0.98);
+                    setStatus("MOCK MATCH DETECTED");
+                    setTimeout(() => handleSuccess(0.98), 1000);
+                }}
+                disabled={isVerifying}
+            >
+                {isVerifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <Fingerprint className="h-4 w-4" />}
+                Simulate Face Match (98%)
+            </Button>
         )}
 
         <p className="text-[10px] text-center text-slate-500 font-bold uppercase tracking-widest italic">
