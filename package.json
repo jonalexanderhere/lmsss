@@ -1,0 +1,19 @@
+{
+  "name": "netclassix",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace web & npm run start:dev --workspace api",
+    "dev:web": "npm run dev --workspace web",
+    "dev:api": "npm run start:dev --workspace api",
+    "build": "npm run build --workspace web && npm run build --workspace api",
+    "lint": "npm run lint --workspace web && npm run lint --workspace api",
+    "typecheck": "npm run typecheck --workspace web && npm run typecheck --workspace api"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
