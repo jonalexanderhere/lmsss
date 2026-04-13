@@ -15,7 +15,10 @@ export async function createClient() {
         setAll(cookiesToSet: any[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
+              cookieStore.set(name, value, {
+                ...options,
+                maxAge: 31536000 // 1 year
+              });
             });
           } catch {
             // Server components can read cookies but may not always be allowed to mutate them.
