@@ -5,6 +5,7 @@ import { ArrowRight, Terminal, Shield, Zap, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FadeIn } from "@/components/animations/fade-in";
+import { cn } from "@/lib/utils";
 
 export default function LandingPage() {
   return (
@@ -58,7 +59,7 @@ export default function LandingPage() {
                   </Button>
                 </Link>
                 <Link href="/courses">
-                  <Button size="lg" variant="outline" className="h-20 px-10 rounded-[28px] border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-xl backdrop-blur-3xl hover:border-white/20 transition-all">
+                  <Button size="lg" variant="secondary" className="h-20 px-10 rounded-[28px] border-white/10 bg-white/5 hover:bg-white/10 text-white font-black text-xl backdrop-blur-3xl hover:border-white/20 transition-all">
                     VIEW MAP
                   </Button>
                 </Link>

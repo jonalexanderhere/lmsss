@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { getRank } from "@/lib/config/gamification";
+import { getRank, RANKS } from "@/lib/config/gamification";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 export function LevelBadge({ xp, size = "md", className }: { xp: number, size?: "sm" | "md" | "lg" | "xl", className?: string }) {
-  const rank = getRank(xp);
+  const rank = getRank(xp) || RANKS[0];
   
   const sizes = {
     sm: "h-12 w-12",

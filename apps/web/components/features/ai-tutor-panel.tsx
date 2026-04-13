@@ -107,7 +107,7 @@ export function AITutorPanel() {
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-black/20 border-white/10 rounded-xl text-sm focus:ring-teal-500"
           />
-          <Button type="submit" size="icon" className="bg-teal-500 hover:bg-teal-600 rounded-xl shrink-0">
+          <Button type="submit" size="sm" className="h-10 w-10 bg-teal-500 hover:bg-teal-600 rounded-xl shrink-0">
             <Send className="h-4 w-4 text-slate-950" />
           </Button>
         </form>

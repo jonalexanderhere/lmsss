@@ -42,7 +42,7 @@ export function CiscoPacketTracer() {
                 <Download className="mr-2 h-4 w-4" />
                 Download .pkt
               </Button>
-              <Button variant="outline" className="w-full border-blue-600/30 text-blue-400 hover:bg-blue-600/10 rounded-xl">
+              <Button variant="secondary" className="w-full border-blue-600/30 text-blue-400 hover:bg-blue-600/10 rounded-xl">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Lihat Panduan
               </Button>
