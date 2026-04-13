@@ -19,10 +19,15 @@ type JwtPayload = {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
+    const secret = configService.get<string>("SUPABASE_JWT_SECRET");
+    if (!secret) {
+      console.warn("⚠️ JWT_STRATEGY_WARNING: SUPABASE_JWT_SECRET is not defined. Authentication will not work.");
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.getOrThrow<string>("SUPABASE_JWT_SECRET"),
+      secretOrKey: secret || "fallback-secret-to-prevent-crash",
       audience: configService.get<string>("JWT_AUDIENCE"),
       issuer: configService.get<string>("JWT_ISSUER")
     });

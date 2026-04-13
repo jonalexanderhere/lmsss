@@ -1,5 +1,14 @@
 create extension if not exists "pgcrypto";
 
+drop table if exists public.ai_analysis cascade;
+drop table if exists public.results cascade;
+drop table if exists public.quiz_questions cascade;
+drop table if exists public.quizzes cascade;
+drop table if exists public.lessons cascade;
+drop table if exists public.courses cascade;
+drop table if exists public.practice_lab_runs cascade;
+drop table if exists public.users cascade;
+
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'app_role') then

@@ -50,8 +50,26 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
 }
 
 export const handler = async (req: any, res: any) => {
-  if (!cachedApp) {
-    cachedApp = await bootstrap();
+  try {
+    if (!cachedApp) {
+      console.log("🛠️  BOOTSTRAP_START: Initializing NestJS application...");
+      cachedApp = await bootstrap();
+      console.log("🚀 BOOTSTRAP_SUCCESS: NestJS application initialized.");
+    }
+    return await cachedApp(req, res);
+  } catch (err: any) {
+    console.error("❌ SERVERLESS_HANDLER_CRASH: An unhandled exception occurred.");
+    console.error("DETAILS:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    
+    // Return a structured error so Vercel doesn't just show a generic 500 if possible
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal Server Error during bootstrap",
+      error: err.message
+    });
   }
-  return cachedApp(req, res);
 };
