@@ -18,32 +18,38 @@ export class AIService {
     private readonly supabaseService: SupabaseService
   ) {}
 
-  private async callOpenRouter(messages: Array<{ role: "system" | "user"; content: string }>) {
+  private async callOpenRouter(messages: any[]) {
     const apiKey = this.configService.get<string>("OPENROUTER_API_KEY");
-    const model = this.configService.get<string>("OPENROUTER_MODEL");
+    const model = "nvidia/nemotron-3-super-120b-a12b:free";
 
     if (!apiKey) {
       return null;
     }
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ model, messages })
-    });
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+          model, 
+          messages,
+          reasoning: { enabled: true }
+        })
+      });
 
-    if (!response.ok) {
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = (await response.json()) as any;
+      return data.choices?.[0]?.message?.content ?? null;
+    } catch (error) {
+      console.error("OpenRouter Error:", error);
       return null;
     }
-
-    const data = (await response.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-
-    return data.choices?.[0]?.message?.content ?? null;
   }
 
   private heuristicAnalysis(payload: AnalyzeResultDto): AnalysisResponse {

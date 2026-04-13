@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { Activity, BookOpen, BrainCircuit, LayoutDashboard, Shield, TerminalSquare, Users, TrendingUp, ClipboardCheck, Video } from "lucide-react";
+import { Activity, BookOpen, BrainCircuit, LayoutDashboard, Shield, TerminalSquare, Users, TrendingUp, ClipboardCheck, Video, LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/browser";
+import { useRouter } from "next/navigation";
 
 const studentItems = [
   { href: "/student", label: "Dashboard", icon: LayoutDashboard },
@@ -22,6 +26,15 @@ const adminItems = [
 ];
 
 export function Sidebar({ role }: { role: string }) {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+    router.push("/login");
+  };
+
   const navItems = role === 'admin' 
     ? [...adminItems, ...studentItems.filter(i => i.label !== 'Dashboard')] 
     : role === 'teacher' 
@@ -70,7 +83,11 @@ export function Sidebar({ role }: { role: string }) {
             </p>
           </div>
           
-          <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/10">
+          <button 
+            onClick={handleLogout}
+            className="group flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-medium text-rose-400 transition-all hover:bg-rose-500/10 active:scale-95"
+          >
+            <LogOut className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             <span>Logout Deck</span>
           </button>
         </div>
