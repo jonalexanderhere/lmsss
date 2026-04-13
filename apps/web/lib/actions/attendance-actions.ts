@@ -37,3 +37,47 @@ export async function logAttendance(confidence: number, status: "present" | "lat
   revalidatePath("/dashboard");
   return { success: true };
 }
+
+export async function getAttendanceRecords() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData?.user) return [];
+
+  const { data, error } = await supabase
+    .from("attendance")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getFaceData() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData?.user) return null;
+
+  const { data, error } = await supabase
+    .from("face_data")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .single();
+
+  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  return data;
+}
+
+export async function getOverallAttendance() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("attendance")
+    .select(`
+      *,
+      users:user_id (name)
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data;
+}

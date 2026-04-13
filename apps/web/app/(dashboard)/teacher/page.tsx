@@ -5,12 +5,15 @@ import { getAdminStats } from "@/lib/actions/stats-actions";
 import { Gradebook } from "@/modules/teacher/gradebook";
 import { getOverallGradebook } from "@/lib/actions/gradebook-actions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Brain, LayoutDashboard, Settings } from "lucide-react";
+import { Brain, LayoutDashboard, Settings, UserCheck } from "lucide-react";
+import { AttendanceMonitoring } from "@/modules/teacher/attendance-monitoring";
+import { getOverallAttendance } from "@/lib/actions/attendance-actions";
 
 export default async function TeacherPage() {
   await requireRole(["teacher"]);
   const stats = await getAdminStats();
   const students = await getOverallGradebook();
+  const attendanceLogs = await getOverallAttendance();
 
   return (
     <Shell role="teacher">
@@ -30,11 +33,15 @@ export default async function TeacherPage() {
 
         <Tabs defaultValue="scoreboard" className="w-full">
           <TabsList className="bg-white/5 border border-white/10 p-1 h-14 rounded-2xl mb-8">
-            <TabsTrigger value="scoreboard" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950">
+            <TabsTrigger value="scoreboard" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950 uppercase font-black text-[10px] tracking-widest">
               <LayoutDashboard className="mr-2 h-4 w-4" />
               Student Scoreboard
             </TabsTrigger>
-            <TabsTrigger value="curriculum" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950 text-slate-400">
+            <TabsTrigger value="attendance" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950 uppercase font-black text-[10px] tracking-widest">
+              <UserCheck className="mr-2 h-4 w-4" />
+              Attendance Protocol
+            </TabsTrigger>
+            <TabsTrigger value="curriculum" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950 text-slate-400 uppercase font-black text-[10px] tracking-widest">
               <Brain className="mr-2 h-4 w-4" />
               Content Insights
             </TabsTrigger>
@@ -42,6 +49,10 @@ export default async function TeacherPage() {
 
           <TabsContent value="scoreboard" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <Gradebook students={students} />
+          </TabsContent>
+
+          <TabsContent value="attendance" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <AttendanceMonitoring logs={attendanceLogs} />
           </TabsContent>
           
           <TabsContent value="curriculum">

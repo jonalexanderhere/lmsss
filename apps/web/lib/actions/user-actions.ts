@@ -33,3 +33,31 @@ export async function updateProfile(data: {
   revalidatePath("/onboarding");
   return { success: true };
 }
+
+export async function getSubmissionStatus() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData?.user) return [];
+
+  // Get all quizzes
+  const { data: quizzes } = await supabase.from("quizzes").select("id, title");
+  
+  // Get all results for this user
+  const { data: results } = await supabase
+    .from("results")
+    .select("quiz_id, score, created_at")
+    .eq("user_id", userData.user.id);
+
+  if (!quizzes) return [];
+
+  return quizzes.map(q => {
+    const result = results?.find(r => r.quiz_id === q.id);
+    return {
+      id: q.id,
+      title: q.title,
+      type: "quiz" as const,
+      status: result ? "completed" as const : "pending" as const,
+      score: result?.score
+    };
+  });
+}
