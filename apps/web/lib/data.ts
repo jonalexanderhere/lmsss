@@ -1,37 +1,47 @@
 export const previewCourses = [
   {
-    id: "course-net-01",
-    slug: "advanced-networking-fundamentals",
-    title: "Advanced Networking Fundamentals",
+    id: "1",
+    title: "MikroTik Advanced Routing (UKK Prep)",
     category: "Networking",
-    progress: 72,
-    lessons: 14,
-    labs: 5
-  },
-  {
-    id: "course-cyber-01",
-    slug: "defensive-cybersecurity-basics",
-    title: "Defensive Cybersecurity Basics",
-    category: "Cybersecurity",
-    progress: 49,
-    lessons: 10,
-    labs: 4
-  },
-  {
-    id: "course-sys-01",
-    slug: "linux-server-administration",
-    title: "Linux Server Administration",
-    category: "System Administration",
-    progress: 81,
     lessons: 12,
-    labs: 6
+    labs: 5,
+    progress: 75
+  },
+  {
+    id: "2",
+    title: "Linux Server Administration & Hardening",
+    category: "System Admin",
+    lessons: 8,
+    labs: 3,
+    progress: 40
+  },
+  {
+    id: "3",
+    title: "Network Security Fundamentals v2",
+    category: "Cybersecurity",
+    lessons: 15,
+    labs: 6,
+    progress: 15
+  },
+  {
+    id: "4",
+    title: "Cisco CCNA: Switching & Wireless",
+    category: "Networking",
+    lessons: 20,
+    labs: 8,
+    progress: 0
+  },
+  {
+    id: "5",
+    title: "Fiber Optic Installation Standards",
+    category: "Telecom",
+    lessons: 6,
+    labs: 2,
+    progress: 0
   }
 ];
 
 export const chartData = [
-  { week: "W1", networking: 62, cybersecurity: 48, sysadmin: 55 },
-  { week: "W2", networking: 70, cybersecurity: 58, sysadmin: 61 },
-  { week: "W3", networking: 76, cybersecurity: 64, sysadmin: 68 },
   { week: "W4", networking: 82, cybersecurity: 71, sysadmin: 78 }
 ];
 
@@ -51,8 +61,8 @@ export const quizPreview = [
 ];
 
 export const aiPreview = {
-  level: "Technician",
-  weakness: "Subnetting CIDR /27 ke atas dan analisis routing table statik.",
-  recommendation: "Ulangi modul subnetting lanjutan, lalu kerjakan lab routing dua segmen VLAN.",
-  next_step: "Lanjut ke Advanced Subnetting Drill kemudian Mini Project Inter-VLAN Routing."
+  level: "Network Specialist (L3 Candidate)",
+  weakness: "BGP Path Selection & Firewall Rules Deep Packet Inspection",
+  recommendation: "Fokus pada MikroTik Hands-on Lab #12 dan review materi 'Mangle Rules'.",
+  next_step: "Selesaikan 2 Lab Lanjutan untuk masuk ke Rank 'Engineer'."
 };
