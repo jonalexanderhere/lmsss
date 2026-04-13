@@ -12,7 +12,7 @@ type AttendanceRecord = {
 };
 
 export function AttendanceHistory({ records }: { records: AttendanceRecord[] }) {
-  if (records.length === 0) {
+  if (!records || records.length === 0) {
     return (
       <div className="glass-card p-12 text-center border-dashed border-2 border-white/5 opacity-50">
         <Calendar className="h-10 w-10 mx-auto mb-4 text-slate-500" />

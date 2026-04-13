@@ -4,10 +4,8 @@ import { Shell } from "@/components/layout/shell";
 import { requireRole } from "@/lib/auth";
 import { RoleDashboard } from "@/modules/dashboard/role-dashboard";
 import { getStudentStats } from "@/lib/actions/stats-actions";
-import { AttendanceHistory } from "@/modules/attendance/attendance-history";
-import { FaceEnrollment } from "@/modules/attendance/face-enrollment";
-import { FaceAttendance } from "@/modules/attendance/face-attendance";
 import { getAttendanceRecords, getFaceData } from "@/lib/actions/attendance-actions";
+import { AttendanceArena } from "@/modules/attendance/attendance-arena";
 import { getSubmissionStatus } from "@/lib/actions/user-actions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Fingerprint, History, Rocket } from "lucide-react";
@@ -68,16 +66,10 @@ export default async function StudentPage() {
               </TabsContent>
 
               <TabsContent value="absensi" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                 {!faceData ? (
-                   <FaceEnrollment onComplete={() => window.location.reload()} />
-                 ) : !hasAttendedToday ? (
-                   <FaceAttendance 
-                     masterEmbedding={faceData.embedding as number[]} 
-                     onComplete={() => window.location.reload()} 
-                   />
-                 ) : (
-                   <AttendanceHistory records={attendanceRecords} />
-                 )}
+                <AttendanceArena 
+                  faceData={faceData} 
+                  records={attendanceRecords} 
+                />
               </TabsContent>
             </Tabs>
           </div>
