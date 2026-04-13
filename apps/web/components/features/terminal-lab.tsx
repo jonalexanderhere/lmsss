@@ -78,7 +78,11 @@ export function TerminalLab({ userId }: { userId: string }) {
     const newHistory = [...history, `student@smk1liwa:~$ ${input}`];
     
     // Process command
-    const mission = missions.find(m => m.command === cmd || (m.command.includes("<") && cmd.startsWith(m.command.split("<")[0])));
+    const mission = missions.find(m => {
+      const baseCommand = m.command.split("<")[0].trim();
+      return m.command === cmd || (m.command.includes("<") && cmd.startsWith(baseCommand));
+    });
+
     
     let output = "Command not found. Type 'help' for available commands.";
     if (mission) {
