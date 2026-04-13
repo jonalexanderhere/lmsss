@@ -49,7 +49,7 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   startLocal();
 }
 
-export const handler = async (req: any, res: any) => {
+const handler = async (req: any, res: any) => {
   try {
     if (!cachedApp) {
       console.log("🛠️  BOOTSTRAP_START: Initializing NestJS application...");
@@ -66,10 +66,19 @@ export const handler = async (req: any, res: any) => {
     });
     
     // Return a structured error so Vercel doesn't just show a generic 500 if possible
-    res.status(500).json({
-      statusCode: 500,
-      message: "Internal Server Error during bootstrap",
-      error: err.message
-    });
+    if (res.status) {
+      res.status(500).json({
+        statusCode: 500,
+        message: "Internal Server Error during bootstrap",
+        error: err.message
+      });
+    } else {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: "Internal Server Error during bootstrap" })
+      };
+    }
   }
 };
+
+export default handler;
