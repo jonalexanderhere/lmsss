@@ -27,7 +27,7 @@ async function bootstrap() {
     })
   );
 
-  app.setGlobalPrefix("api");
+  app.setGlobalPrefix("api", { exclude: ["/"] });
 
   await app.init();
   return server;

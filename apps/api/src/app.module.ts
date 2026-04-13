@@ -11,6 +11,7 @@ import { ResultsModule } from "./results/results.module";
 import { AIModule } from "./ai/ai.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { HealthController } from "./health/health.controller";
+import { AppController } from "./app.controller";
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { HealthController } from "./health/health.controller";
     AIModule,
     DashboardModule
   ],
-  controllers: [HealthController],
+  controllers: [AppController, HealthController],
   providers: [
     {
       provide: APP_GUARD,
