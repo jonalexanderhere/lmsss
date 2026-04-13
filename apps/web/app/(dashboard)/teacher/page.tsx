@@ -1,9 +1,11 @@
 import { Shell } from "@/components/layout/shell";
 import { requireRole } from "@/lib/auth";
 import { RoleDashboard } from "@/modules/dashboard/role-dashboard";
+import { getAdminStats } from "@/lib/actions/stats-actions";
 
 export default async function TeacherPage() {
   await requireRole(["teacher"]);
+  const stats = await getAdminStats();
 
   return (
     <Shell role="teacher">
@@ -13,10 +15,10 @@ export default async function TeacherPage() {
         xp={1240}
         progress={83}
         metrics={[
-          { label: "Active Students", value: "148" },
-          { label: "Quiz Reviewed", value: "32" },
+          { label: "Active Students", value: stats.students.toString() },
+          { label: "Total Courses", value: stats.courses.toString() },
           { label: "Avg Session", value: "27m" },
-          { label: "Exam Readiness", value: "78%" }
+          { label: "Platform Status", value: "Online" }
         ]}
       />
     </Shell>
