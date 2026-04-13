@@ -3,23 +3,21 @@
   "builds": [
     {
       "src": "apps/api/src/main.ts",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["apps/api/src/**"] }
+      "use": "@vercel/node"
     },
     {
       "src": "apps/web/package.json",
-      "use": "@vercel/next",
-      "config": { "distDir": "dist" }
+      "use": "@vercel/next"
     }
   ],
   "rewrites": [
     {
-      "source": "/api/:match*",
+      "source": "/api/(.*)",
       "destination": "apps/api/src/main.ts"
     },
     {
-      "source": "/:match*",
-      "destination": "apps/web/:match*"
+      "source": "/(.*)",
+      "destination": "apps/web/$1"
     }
   ]
 }
