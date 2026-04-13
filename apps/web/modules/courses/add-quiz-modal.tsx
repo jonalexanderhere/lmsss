@@ -57,18 +57,34 @@ export function AddQuizModal({ lessonId, existingQuiz }: { lessonId: string; exi
           </DialogDescription>
         </DialogHeader>
         <form action={handleSubmit} className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">Exam Title</Label>
-            <Input id="title" name="title" defaultValue={existingQuiz?.title || "UKK Prep Quiz"} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="timer">Timer (Minutes)</Label>
-            <Input id="timer" name="timer" type="number" defaultValue={existingQuiz?.timer_in_minutes || 15} required />
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="title">Exam/Quiz Title</Label>
+              <Input id="title" name="title" defaultValue={existingQuiz?.title || "Final Mastery Assessment"} required />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="timer">Timer (Minutes)</Label>
+              <Input id="timer" name="timer" type="number" defaultValue={existingQuiz?.timer_in_minutes || 15} required />
+            </div>
+
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-orange-500/10 border border-orange-500/20">
+              <div className="space-y-0.5">
+                <Label className="text-sm font-bold text-orange-400">Official Exam Mode</Label>
+                <p className="text-[10px] text-slate-500 font-medium italic">Jadikan sebagai ulangan/ujian resmi.</p>
+              </div>
+              <input 
+                type="checkbox" 
+                name="isExam" 
+                value="true" 
+                defaultChecked={existingQuiz?.is_exam}
+                className="h-5 w-5 rounded border-white/10 bg-black/20 text-orange-500 focus:ring-orange-500" 
+              />
+            </div>
           </div>
           <SubmitButton exists={!!existingQuiz} />
           {existingQuiz && (
-             <p className="text-xs text-center text-muted-foreground italic">
-               *Question management panel integration coming soon. Use database for direct edits.
+             <p className="text-xs text-center text-slate-500 italic mt-4">
+               *Exam configuration is live. Questions are managed via Question Bank.
              </p>
           )}
         </form>

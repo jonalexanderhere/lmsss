@@ -1,16 +1,17 @@
 "use client";
 
-import { Activity, Award, BrainCircuit, Clock3 } from "lucide-react";
+import { Activity, Award, BrainCircuit, Clock3, Zap, TerminalSquare } from "lucide-react";
 import { ProgressChart } from "@/components/charts/progress-chart";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { chartData, previewCourses, aiPreview } from "@/lib/data";
-import { getRankFromXp } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { FadeIn, StaggerChildren } from "@/components/animations/fade-in";
 import { ActivityHighlights } from "@/components/features/activity-highlights";
-import { Zap } from "lucide-react";
+import { LevelBadge } from "@/components/features/level-badge";
+import { getRank, getNextRank } from "@/lib/config/gamification";
+import { cn } from "@/lib/utils";
 
 const metricIcons = [Award, Activity, Clock3, BrainCircuit];
 
@@ -96,22 +97,38 @@ export function RoleDashboard({
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
-            <div className="glass-card p-8">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500">Reputation</h3>
-                  <p className="text-2xl font-black text-white">{getRankFromXp(xp)}</p>
-                </div>
-                <div className="h-12 w-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500">
-                  <Award className="h-6 w-6" />
-                </div>
-              </div>
+            <div className="glass-card relative p-8 h-full flex flex-col items-center justify-center overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-blue-500 shadow-[0_0_20px_rgba(20,184,166,0.5)]" />
               
-              <div className="relative text-center">
-                <p className="text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-800">
-                  {xp}
-                </p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-2">Earned XP</p>
+              <LevelBadge xp={xp} size="lg" className="mb-6" />
+              
+              <div className="w-full space-y-4">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Player Rank</p>
+                    <h3 className="text-2xl font-black text-white">{getRank(xp).name}</h3>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-black text-white">{xp} <span className="text-xs text-slate-500 uppercase">XP</span></p>
+                  </div>
+                </div>
+
+                {getNextRank(xp) && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest text-slate-500">
+                      <span>Next Rank: {getNextRank(xp)?.name}</span>
+                      <span>{getNextRank(xp)!.minXp - xp} XP to go</span>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-slate-900 border border-white/5 overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min(100, (xp / getNextRank(xp)!.minXp) * 100)}%` }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        className={cn("h-full bg-gradient-to-r", getRank(xp).color)}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </FadeIn>

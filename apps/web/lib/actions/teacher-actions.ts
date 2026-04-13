@@ -51,15 +51,17 @@ export async function createQuiz(formData: FormData) {
   const lessonId = formData.get("lessonId") as string;
   const title = formData.get("title") as string;
   const timer = parseInt(formData.get("timer") as string || "15");
+  const isExam = formData.get("isExam") === "true";
 
   const { data, error } = await supabase.from("quizzes").insert({
     lesson_id: lessonId,
     title,
-    timer_in_minutes: timer
+    timer_in_minutes: timer,
+    is_exam: isExam
   }).select().single();
 
   if (error) throw new Error(error.message);
-  revalidatePath(`/teacher/management/quizzes`);
+  revalidatePath(`/teacher/management/courses`);
   return data;
 }
 

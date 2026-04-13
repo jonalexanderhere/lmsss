@@ -1,22 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { Shield, Menu, X, ArrowRight } from "lucide-react";
+import { Shield, Menu, X, ArrowRight, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/browser";
+import { LevelBadge } from "@/components/features/level-badge";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        supabase.from("users").select("xp, role").eq("id", session.user.id).single()
+          .then(({ data }) => setUser({ ...session.user, ...data }));
+      }
+    });
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [supabase]);
+
+  const dashboardLink = user?.role ? `/${user.role}` : "/login";
 
   return (
     <nav
@@ -50,17 +64,31 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" className="hidden sm:flex text-slate-400 hover:text-white hover:bg-white/5">
-                Login
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button className="bg-teal-500 hover:bg-teal-600 text-slate-950 font-bold px-6 rounded-xl shadow-lg shadow-teal-500/20">
-                Dashboard
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="hidden sm:flex flex-col items-end">
+                   <p className="text-[10px] font-bold text-slate-500 uppercase">Current Rank</p>
+                   <p className="text-xs font-black text-white">{user.xp || 0} XP</p>
+                </div>
+                <Link href={dashboardLink}>
+                  <LevelBadge xp={user.xp || 0} size="sm" />
+                </Link>
+              </div>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="ghost" className="hidden sm:flex text-slate-400 hover:text-white hover:bg-white/5">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button className="bg-teal-500 hover:bg-teal-600 text-slate-950 font-bold px-6 rounded-xl shadow-lg shadow-teal-500/20">
+                    Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </>
+            )}
 
             {/* Mobile Toggle */}
             <button 
@@ -78,13 +106,15 @@ export function Navbar() {
             <Link href="/courses" className="block text-sm font-medium text-slate-400 hover:text-white py-2">Courses</Link>
             <Link href="/quizzes" className="block text-sm font-medium text-slate-400 hover:text-white py-2">Quiz Arena</Link>
             <Link href="/labs" className="block text-sm font-medium text-slate-400 hover:text-white py-2">Practice Lab</Link>
-            <div className="pt-2">
-              <Link href="/login" className="block">
-                <Button variant="ghost" className="w-full text-slate-400 hover:text-white hover:bg-white/5 mb-2">
-                  Login
-                </Button>
-              </Link>
-            </div>
+            {!user && (
+              <div className="pt-2">
+                <Link href="/login" className="block">
+                  <Button variant="ghost" className="w-full text-slate-400 hover:text-white hover:bg-white/5 mb-2">
+                    Login
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>
