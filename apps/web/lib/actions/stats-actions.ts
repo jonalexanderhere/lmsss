@@ -34,22 +34,28 @@ export async function getStudentStats(userId: string) {
   // 1. Get XP and Base Info
   const { data: user } = await supabase
     .from("users")
-    .select("xp, points")
+    .select("xp, points, rank")
     .eq("id", userId)
     .single();
 
-  // 2. Get Course Progress (Simplified count of joined courses)
-  const { count: coursesCount } = await supabase
-    .from("courses")
-    .select("*", { count: "exact", head: true });
+  // 2. Get Lab Progress
+  const { data: lab } = await supabase
+    .from("practice_lab_runs")
+    .select("completed_missions, total_missions, current_mission_status")
+    .eq("user_id", userId)
+    .single();
 
-  // 3. Get Accuracy (Mocked from results table logic if exists)
+  const labsCompleted = lab?.completed_missions || 0;
+  const totalLabs = lab?.total_missions || 10;
+  const progressPercent = Math.round((labsCompleted / totalLabs) * 100);
+
   return {
     xp: user?.xp || 0,
-    progress: 0, // Needs enrollment logic
+    progress: progressPercent,
     accuracy: "84%",
-    labsCompleted: 0,
-    practiceTime: "0h",
-    readiness: "In Training"
+    labsCompleted: labsCompleted,
+    totalLabs: totalLabs,
+    practiceTime: `${Math.round(labsCompleted * 12)}m`,
+    readiness: lab?.current_mission_status || "Belum Memulai Lab"
   };
 }

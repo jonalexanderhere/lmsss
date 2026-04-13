@@ -65,6 +65,37 @@ export function RoleDashboard({
 
         <div className="space-y-6">
           <FadeIn direction="up" delay={0.2}>
+            <div className="glass-card p-8 bg-gradient-to-br from-teal-500/5 to-transparent border-teal-500/20">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500">Terminal Mission</h3>
+                  <p className="text-2xl font-black text-teal-400">Level Configurator</p>
+                </div>
+                <div className="h-12 w-12 rounded-2xl bg-teal-500/20 flex items-center justify-center text-teal-400">
+                  <TerminalSquare className="h-6 w-6" />
+                </div>
+              </div>
+              
+              <div className="flex items-end justify-between gap-4">
+                <div className="space-y-1 flex-1">
+                  <p className="text-4xl font-black text-white">{metrics.find(m => m.label === "Labs Completed")?.value || 0}/10</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Missions Cleared</p>
+                </div>
+                <div className="w-24 h-24">
+                  <ProgressChart progress={progress} color="#2dd4bf" />
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/5">
+                <div className="flex items-center gap-3">
+                  <div className="h-2 w-2 rounded-full bg-teal-400 animate-pulse" />
+                  <p className="text-xs font-medium text-slate-400">Status: <span className="text-white italic">"{metrics.find(m => m.label === "Mission Status")?.value || "Ready"}"</span></p>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn direction="up" delay={0.3}>
             <div className="glass-card p-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
@@ -76,17 +107,11 @@ export function RoleDashboard({
                 </div>
               </div>
               
-              <div className="relative py-4 text-center">
-                <p className="text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-800">
+              <div className="relative text-center">
+                <p className="text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-800">
                   {xp}
                 </p>
-                <div className="mt-4 space-y-3">
-                  <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 px-1">
-                    <span>Mastery Progress</span>
-                    <span>{progress}%</span>
-                  </div>
-                  <Progress value={progress} className="h-3 rounded-full bg-slate-800" />
-                </div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-2">Earned XP</p>
               </div>
             </div>
           </FadeIn>

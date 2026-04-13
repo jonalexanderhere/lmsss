@@ -1,54 +1,43 @@
 import { Shell } from "@/components/layout/shell";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { TerminalSquare, Cpu, Box, Cloud } from "lucide-react";
+import { TerminalLab } from "@/components/features/terminal-lab";
+import { CiscoPacketTracer } from "@/components/features/cisco-pt-hub";
+import { requireRole } from "@/lib/auth";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Terminal, Network } from "lucide-react";
 
-export default function LabsPage() {
+export default async function LabsPage() {
+  const auth = await requireRole(["student", "teacher", "admin"]);
+
   return (
-    <Shell role="student">
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-4xl font-black tracking-tight text-white">Practice Lab</h1>
-          <p className="mt-2 text-slate-400">Lingkungan simulasi praktis untuk Cisco, Linux, dan Virtualisasi.</p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            { 
-              title: "Cisco Networking Lab", 
-              desc: "Simulasi routing, switching, dan VLAN configuration secara real-time.", 
-              icon: Cpu,
-              level: "Intermediate"
-            },
-            { 
-              title: "Linux Server Hardening", 
-              desc: "Konfigurasi keamanan pada Ubuntu Server dan CentOS.", 
-              icon: TerminalSquare,
-              level: "Advanced"
-            },
-            { 
-              title: "Virtualization Sandbox", 
-              desc: "Deploy Proxmox dan VMware dalam lingkungan terkontrol.", 
-              icon: Box,
-              level: "Expert"
-            }
-          ].map((lab) => (
-            <div key={lab.title} className="group glass-card p-6 h-full border-teal-500/10 hover:border-teal-500/30 transition-all cursor-not-allowed">
-              <div className="flex h-12 w-12 rounded-2xl bg-teal-500/10 flex items-center justify-center text-teal-400 mb-6 font-bold">
-                <lab.icon className="h-6 w-6" />
-              </div>
-              <Badge className="bg-white/5 text-slate-400 mb-4">{lab.level}</Badge>
-              <h3 className="text-xl font-bold text-white mb-2">{lab.title}</h3>
-              <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-                {lab.desc}
-              </p>
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-white/5 px-3 py-2 rounded-xl w-fit">
-                <Cloud className="h-4 w-4" />
-                <span>SERVER PROVISIONING SOON</span>
-              </div>
+    <Shell role={auth.user.role as any}>
+      <div className="space-y-10">
+        <Tabs defaultValue="terminal" className="w-full">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
+            <div>
+              <h1 className="text-4xl font-black tracking-tight text-white">Practice Arena</h1>
+              <p className="mt-2 text-slate-400">Pilih mode simulasi untuk mengasah keahlian teknis Anda.</p>
             </div>
-          ))}
-        </div>
+            
+            <TabsList className="bg-white/5 border border-white/10 p-1 h-14 rounded-2xl">
+              <TabsTrigger value="terminal" className="rounded-xl h-12 px-6 data-[state=active]:bg-teal-500 data-[state=active]:text-slate-950">
+                <Terminal className="mr-2 h-4 w-4" />
+                Interaktif Terminal
+              </TabsTrigger>
+              <TabsTrigger value="cisco" className="rounded-xl h-12 px-6 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+                <Network className="mr-2 h-4 w-4" />
+                Cisco Packet Tracer
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          <TabsContent value="terminal" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <TerminalLab userId={auth.user.id} />
+          </TabsContent>
+
+          <TabsContent value="cisco" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <CiscoPacketTracer />
+          </TabsContent>
+        </Tabs>
       </div>
     </Shell>
   );
