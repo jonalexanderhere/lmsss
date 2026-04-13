@@ -15,7 +15,10 @@ const monoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: "NetClassix",
-  description: "Modern LMS untuk SMK TJKT: networking, cybersecurity, dan system administration."
+  description: "Modern LMS untuk SMK TJKT: networking, cybersecurity, dan system administration.",
+  icons: {
+    icon: "/favicon.svg",
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
